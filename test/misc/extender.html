@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title></head><body>
+<script type="module">
+
+import Extender from '../../src/misc/Extender';
+
+window.addEventListener( "load", async _=>{
+
+    function AA( base ){
+        return class AA extends base {
+            a = "a";
+            //constructor(){ super(); }
+            aa(){ console.log( this.a ); }
+        }
+    }
+
+    function BB( base ){
+        return class BB extends base{
+            b = "b";
+            //constructor(){ super() }
+            bb(){ console.log( this.b ); }
+        }
+    }
+
+    class AB extends Extender( AA, BB ){
+        //constructor(){ super(); }
+    }
+
+    let ab = new AB();
+    ab.aa()
+    ab.bb();
+    console.log( ab );
+    console.log( ab.a, ab.b );
+});
+
+</script>
+</body></html>

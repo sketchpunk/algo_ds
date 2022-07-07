@@ -28,3 +28,4 @@ npm run dev
 
 ### Misc
 - Object Pool
+- Multi Class Extender
