@@ -1,0 +1,40 @@
+{
+    "name"          : "algo_ds",
+    "version"       : "0.0.1",
+    "author"        : "Pedro Sousa ( Vor @ SketchPunk Labs )",
+    "description"   : "",
+    "keywords"      : [],
+    "license"       : "MIT",
+    "homepage"      : "https://github.com/sketchpunk/algo_ds#readme",
+    "repository"    : { "url": "git+https://github.com/sketchpunk/algo_ds.git", "type": "git" },
+    "bugs"          : { "url": "https://github.com/sketchpunk/algo_ds/issues" },
+    "files"         : [ "dist" ],
+    "main"          : "./dist/oito_geo.cjs.js",
+    "module"        : "./dist/oito_geo.es.js",
+    "types"         : "./dist/oito_geo.d.ts",
+    "exports": {
+        ".": {
+            "import"    : "./dist/oito_geo.es.js",
+            "require"   : "./dist/oito_geo.cjs.js"
+        }
+    },
+    "scripts": {
+        "dev"           : "vite",
+        "build"         : "vite build",
+        "build:types"   : "tsc --declaration --noEmit false --emitDeclarationOnly --strict false --outDir ./dist",
+        "lint"          : "eslint . --ext .ts"
+    },
+
+    "peerDependencies": {
+        "gl-matrix"     : "^3.4.3"
+    },
+    
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin"  : "^5.13.0",
+        "@typescript-eslint/parser"         : "^5.13.0",
+        "eslint"                            : "^8.10.0",
+        "three"                             : "^0.138.2",
+        "typescript"                        : "^4.6.2",
+        "vite"                              : "^2.8.6"
+    }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title></head><body>
+<script type="module">
+
+import CircularLinkedList from '../../src/lists/CircularLinkedList';
+
+window.addEventListener( "load", async _=>{
+    const list = new CircularLinkedList();
+
+    let a = list.add( 'a' );
+    let b = list.add( 'b' );
+    let c = list.add( 'c' );
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    console.log( list.size(), list.count );
+    console.log( list.findNode( 'c' ) ); 
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    for( const v of list.iter() ) console.log( 'iter', v );
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    const init = b;
+    let   n    = init;
+
+    do{
+        console.log( 'Manual', n.value );
+    }while( (n = n.next) !== init );
+});
+
+</script>
+</body></html>

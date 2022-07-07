@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title></head><body>
+<script type="module">
+
+import ObjectPool from '../../src/misc/ObjectPool';
+
+window.addEventListener( "load", async _=>{
+
+    const pool = new ObjectPool( 
+        ()=>{ console.log( 'createnew'); return { v:0 }; },
+        (v)=>{ console.log( 'recycle', v ); },
+    );
+
+    let a = pool.get();
+    //console.assert( pool.active.length == 1, 'Active not length of 1' );
+    a.v = 2;
+    console.log( a );
+
+    let b = pool.get();
+    console.log( b );
+
+    pool.recycleItem( a );
+    
+    let c = pool.get();
+    console.log( c );
+
+    pool.recycleAll();
+
+    console.log( pool.active, pool.cache );
+});
+
+</script>
+</body></html>
