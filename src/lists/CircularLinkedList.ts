@@ -9,12 +9,12 @@ export default class CircularLinkedList<T>{
     // #region MAIN
     head  : Node<T> | null = null; // Starting Node
     tail  : Node<T> | null = null; // Last node before repeating
-    count               = 0;       // How Many nodes added to list
+    count                  = 0;    // How many nodes added to list
     //constructor(){}
     // #endregion
 
     // #region METHODS
-    add( v: T ): Node<T>{
+    push( v: T ): Node<T>{
         const n = new Node<T>( v );
         this.count++;
 
