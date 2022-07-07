@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title></head><body>
+<script type="module">
+
+import DoublyLinkedList from '../../src/lists/DoublyLinkedList';
+
+window.addEventListener( "load", async _=>{
+    const list = new DoublyLinkedList();
+
+    let a = list.push( 'a' );
+    let b = list.push( 'b' );
+    let c = list.push( 'c' );
+    let z = list.unshift( 'z' );
+    let y = list.insert( 1, 'y' );
+
+    // console.log( list );
+    console.log( list.get( 1 ) );
+    list.set( 1, 'x' );
+
+    // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    console.log( list.count );
+
+    // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    for( const v of list ) console.log( 'iter', v );
+
+    //list.pop();
+    //list.shift();
+    //list.remove( 1 );
+    //list.reverse();
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    let init = list.head;
+    let n    = init;
+    do{
+        console.log( 'Manual', n.value );
+    }while( (n = n.next) );
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // init = list.tail;
+    // n    = init;
+    // do{
+    //     console.log( 'Manual Rev', n.value );
+    // }while( (n = n.prev) );
+});
+
+</script>
+</body></html>

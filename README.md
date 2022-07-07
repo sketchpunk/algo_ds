@@ -22,6 +22,8 @@ npm run dev
 ---
 
 ### Data Structures
+- Singly Linked List
+- Doubly Linked List
 - Circular Linked List
 
 ### Misc
