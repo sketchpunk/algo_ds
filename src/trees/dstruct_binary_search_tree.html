@@ -1,0 +1,129 @@
+<html><script>
+
+class Node{
+    value = null;
+    l     = null;
+    r     = null;
+    constructor( v ){ this.value = v; }
+}
+
+class BinarySearchTree{
+    root = null;
+    constructor(){}
+
+    insert( v ){
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        let n = new Node( v );
+        if( !this.root ){ this.root = n; return this }
+
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        let leaf = this.root;
+
+        while( leaf != null ){
+            if( v == leaf.value ) return this;
+
+            if( v < leaf.value ){           // LEFT
+                if( leaf.l == null ){ leaf.l = n; return this; }
+                leaf = leaf.l;
+            }else if( v > leaf.value ){     // RIGHT
+                if( leaf.r == null ){ leaf.r = n; return this;}
+                leaf = leaf.r;
+            }
+        }
+
+        return this;
+    }
+
+    find( v ){
+        let leaf = this.root;
+
+        while( leaf != null ){
+            if( v == leaf.value ) return leaf;
+            leaf = ( v < leaf.value )? leaf.l : leaf.r;
+        }
+
+        return null;
+    }
+
+
+    // #region Traversal
+
+    // Traverse each level of each side
+    breath_first_search(){
+        let n, queue = new Array();
+        queue.push( this.root );
+
+        while( queue.length != 0 ){
+            n = queue.shift();
+            console.log( n.value );
+            if( n.l ) queue.push( n.l );
+            if( n.r ) queue.push( n.r );
+        }
+
+        return this;
+    }
+
+    // Traverse the Left side, then the right, print data from bottom up.
+    // This is good if you want to go per level, like recreating the tree
+    depth_first_search_preorder(){
+        let n, stack = new Array();
+        stack.push( this.root );
+
+        while( stack.length != 0 ){   
+            n = stack.pop();
+            console.log( n.value );
+            if( n.r ) stack.push( n.r );
+            if( n.l ) stack.push( n.l );
+        }
+
+        return this;
+    }
+
+    // Taverses to the bottom on the left side, then works back up to root,
+    // then goes to the bottom of the right side then works back up to root,
+    depth_first_search_postorder(){
+        let list        = new Array();
+        let traverse    = ( n )=>{
+            if( n.l ) traverse( n.l );
+            if( n.r ) traverse( n.r );
+            list.push( n.value );
+        }
+
+        traverse( this.root );
+        console.log( list );
+        return list;
+    }
+
+    // Traverses the left, goes to the bottom of left to start printing, 
+    // Good to get things in order for a Ordered Binary Tree
+    depth_first_search_inorder(){
+        let list        = new Array();
+        let traverse    = ( n )=>{
+            n.l && traverse( n.l );  // if( n.l ) traverse( n.l );
+            list.push( n.value );
+            n.r && traverse( n.r );
+        }
+
+        traverse( this.root );
+        console.log( list );
+        return list;
+    }
+
+    // #endregion
+}
+
+
+let bst = new BinarySearchTree();
+bst.insert( 10 ).insert( 6 ).insert( 15 ).insert( 3 ).insert( 8 ).insert( 20 );
+
+//console.log( bst );
+
+//console.log( bst.find( 11 ) );
+//console.log( bst.find( 22 ) );
+
+//bst.breath_first_search();
+//bst.depth_first_search_preorder();
+//bst.depth_first_search_postorder();
+bst.depth_first_search_inorder();
+
+</script></html>

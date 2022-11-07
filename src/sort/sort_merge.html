@@ -1,0 +1,50 @@
+<html><script>
+
+// #region Example
+
+/*
+The main idea is to use recursion to split the array down in half till there is an array of just 1 element.
+
+Once there is two arrays, we merge them into one while sorting it.
+
+At the end of the recursion should get back just one sorted array.
+*/
+
+// Function that merges two sorted arrays
+function merge_sorted_ary( aa, bb ){
+    let a = 0, b = 0, i = 0;
+    let alen = aa.length;
+    let blen = bb.length;
+    let out  = new Array( alen + blen );
+
+    // While within array boundaries, Compare and Merge Arrays
+    while( a < alen && b < blen ){
+        out[ i++ ] = ( bb[ b ] > aa[ a ] )? 
+            aa[ a++ ] :
+            bb[ b++ ];
+    }
+
+    // If arrays are uneven, check for any remaining elements.
+    if( a >= alen && b < blen ) while( b < blen ) out[ i++ ] = bb[ b++ ];
+    if( b >= blen && a < alen ) while( a < alen ) out[ i++ ] = aa[ a++ ];
+
+    return out;
+}
+
+function merge_sort( ary ){
+    if( ary.length <= 1 ) return ary;        // Can't split, just return.
+
+    let h = Math.floor( ary.length / 2 );    // Split the array into two pieces
+    let a = merge_sort( ary.slice( 0, h ) ); // Sort this half  
+    let b = merge_sort( ary.slice( h ) );    // Sort that half
+
+    return merge_sorted_ary( a, b );         // Merge Sorted Results
+}
+
+//console.log( merge_sorted_ary( [1,10,50], [2,14,99,100] ) );
+console.log( merge_sort( [10,24,76,73,72,1,9] ) );
+
+
+
+// #endregion //////////////////////////////////////////////////////
+</script></html>

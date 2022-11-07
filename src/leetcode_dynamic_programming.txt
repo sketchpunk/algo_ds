@@ -1,0 +1,100 @@
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+
+Input: nums = [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+Total amount you can rob = 2 + 9 + 1 = 12.
+
+var rob = function(nums) {
+    let dp = new Array( nums.length );
+    
+    let i;
+    for( i=0; i < nums.length; i++ ){
+        if( i==0 )      dp[ 0 ] = nums[0];
+        else if( i==1 ) dp[ i ] = Math.max( nums[i], dp[i-1] );
+        else            dp[ i ] = Math.max( dp[i-2]+nums[i], dp[i-1] );
+    }
+    
+    return dp[ i-1 ];
+}
+
+-----------------------------------------------------------------------------
+
+Input: cost = [10,15,20]
+Output: 15
+Explanation: You will start at index 1.
+- Pay 15 and climb two steps to reach the top.
+The total cost is 15.
+
+
+Input: cost = [1,100,1,1,1,100,1,1,100,1]
+Output: 6
+Explanation: You will start at index 0.
+- Pay 1 and climb two steps to reach index 2.
+- Pay 1 and climb two steps to reach index 4.
+- Pay 1 and climb two steps to reach index 6.
+- Pay 1 and climb one step to reach index 7.
+- Pay 1 and climb two steps to reach index 9.
+- Pay 1 and climb one step to reach the top.
+The total cost is 6.
+
+/**
+ * @param {number[]} cost
+ * @return {number}
+ */
+var minCostClimbingStairs = function(cost) {
+    
+    // [1,100,1,1,1,100,1,1,100,1,T]
+    // [0,  0,1,2,2,  3,3,4,  4,5,6]
+    // 0 = 
+    let paid = [ 0, 0 ];
+    
+    for( i=2; i <= cost.length; i++ ){
+        
+        paid[ i ] = Math.min(
+            paid[ i-1 ] + cost[ i-1 ],
+            paid[ i-2 ] + cost[ i-2 ],
+        )
+    }
+    
+    return paid[ cost.length ];
+}
+
+-----------------------------------------------------------------------------
+
+Input: n = 4
+Output: 4
+Explanation:
+T_3 = 0 + 1 + 1 = 2
+T_4 = 1 + 1 + 2 = 4
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var tribonacci = function(n) {
+    if( n == 0 )    return 0;
+    if( n <= 2 )    return 1;
+    
+    //let num = [ 0, 1, 1 ];
+    
+    let a = 0;
+    let b = 1;
+    let c = 1;
+    let x = 0;
+    
+    for( let i=3; i < n; i++ ){
+        //num[ i ] = num[ i-1 ] + num[ i-2 ] + num[ i-3 ]; 
+        
+        x = a + b + c;
+        a = b;
+        b = c;
+        c = x;
+    }
+    
+    return a + b + c;
+    //return num[ n ];
+};

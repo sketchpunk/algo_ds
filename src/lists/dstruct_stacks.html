@@ -1,0 +1,61 @@
+<html><script>
+
+// Last in - First Out, a Simplifed Version of a Linked list, but instead of adding
+// to the end, we add to the beginning.
+
+class Node{
+    value  = null;
+    next   = null;
+    constructor( v ){ this.value = v; }
+}
+
+class Stack{
+    first = null;
+    last  = null;
+    size  = 0;
+    constructor(){}
+
+    push( v ){
+        let n = new Node( v );
+
+        if( !this.first ){
+            this.first  = n;
+            this.last   = n;
+        }else{
+            n.next      = this.first;
+            this.first  = n;
+        }
+
+        this.size++;
+        return this;
+    }
+
+    pop(){
+        if( !this.first ) return null;
+
+        let n = this.first;
+        if( this.first == this.last ){
+            this.last   = null;
+            this.first  = null;
+            this.size   = 0;
+        }else{
+            this.first = this.first.next;
+            this.size--;
+        }
+
+        n.next = null;
+        return n.value;
+    }
+}
+
+let st = new Stack();
+st.push( "A" ).push( "B" ).push( "C" );
+
+//console.log( st );
+
+console.log( st.pop(), st.size );
+console.log( st.pop(), st.size );
+console.log( st.pop(), st.size );
+console.log( st.pop(), st.size );
+
+</script></html>

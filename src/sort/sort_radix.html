@@ -1,0 +1,75 @@
+<html><script>
+
+/*
+The idea is to break the numbers down into buckets at each digit.
+So we have 10 buckets, representing 0 to 9, then we get the max digit size, thats how many iterations we need to do.
+So for each iteration, we get the number and pust the whole value in that bucket.
+
+First iteration is 0, so digit at 0 of 1234 is 4. That means 1234 gets put in the bucket named 4.
+At the end, we combine all mini arrays into one array again.
+
+First iteration is 1, so digit at 1 of 1234 is 3. That means 1234 gets put in the bucket named 3.
+
+So you keep going till your done. The process of breaking things down and putting them in their number buckets
+then recombinding them with first-in first-out ends up having the numbers sorted.
+*/
+
+function radix_sort( ary ){
+    let i, k, n;
+    let len = ary.length;
+    let b, buckets = Array.from( {length:10}, ()=>[] );
+
+    let kmax = most_digits( ary );
+
+    for( let k=0; k < kmax; k++ ){
+
+        for( i=0; i < len; i++ ){
+            n = get_digit_at( ary[ i ], k );
+            buckets[ n ].push( ary[ i ] );
+        }
+
+        // Todo, Can do better then recreate the array
+        // Better to loop all the buckets and updating the
+        // exiting array with the new order at each iteration.
+        ary = [].concat( ...buckets );
+
+        //Reset all the arrays to be able to reuse it.
+        for( b of buckets ) b.length = 0;
+    }
+
+    return ary;
+}
+
+// Use math to get a number at pos without converting to strings
+// Get the Second Number :: 12345 / 10**1 = 1234.5 -> Floor() = 1234 -> 1234 % 10 = 4
+function get_digit_at( n, i ){ return Math.floor( Math.abs( n ) / Math.pow( 10, i ) ) % 10; }
+
+// How many digits in the number. By using Log of 10, we can ask, What is the power of 10
+// To get to a specific number. So log10( 432 ) = 2.6263xxx is the opposite of 10^2.6263xxx = 432
+// So with the Log10, we get a fraction, just floor it and add 1. A single digit will return log of 0
+// and as the digits rise, it becomes 1, 2, 3, etc.
+// Can look at log10 as in How many times does a number divide into 10.
+// So log( 10 ) = 1 and log( 99 ) = 1.9
+function get_digit_cnt( n ){
+    if( n === 0 ) return 1; // Log(0) == -infinity, bad.
+    return Math.floor( Math.log10( Math.abs( n ) ) ) + 1;
+}
+
+function most_digits( ary ){
+    let i, c, max = -Infinity;
+    for( i of ary ){
+        c = get_digit_cnt( i );
+        if( c > max ) max = c;
+    }
+    return max;
+}
+
+//console.log( get_digit_at( 12345, 1 ) );
+//console.log( get_digit_cnt( 15243 ) );
+//console.log( most_digits( [ 10, 2, 1234, 333 ] ) );
+
+console.log( radix_sort( [23,345,5478,12,2345,9852] ) );
+
+
+// #endregion //////////////////////////////////////////////////////
+</script></html>

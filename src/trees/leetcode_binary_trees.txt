@@ -1,0 +1,182 @@
+
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+
+Input: root = [1,null,2,3]
+Output: [1,3,2]
+
+// Binary Tree Pre-Order Traversal
+var preorderTraversal = function(root) {
+    let ary = [];
+    if( !root ) return ary;
+    
+    ary.push( root.val );
+    if( root.left != null )	ary.push( ...preorderTraversal( root.left ) );
+    if( root.right != null )	ary.push( ...preorderTraversal( root.right ) );    
+    
+    return ary;
+};
+
+// Binary Tree In-Order Traversal
+var inorderTraversal = function(root) {
+    let ary = [];
+    if( !root ) return ary;
+    
+    if( root.left != null )	ary.push( ...inorderTraversal( root.left ) );
+    ary.push( root.val );
+    if( root.right != null )	ary.push( ...inorderTraversal( root.right ) );
+    
+    return ary;
+};
+
+// Binary Tree Post-Order Traversal
+var postorderTraversal = function(root) {
+    let ary = [];
+    if( !root ) return ary;
+    
+    if( root.left != null )	ary.push( ...postorderTraversal( root.left ) );
+    if( root.right != null )	ary.push( ...postorderTraversal( root.right ) );
+    ary.push( root.val );
+    
+    return ary;
+};
+
+// Binary Tree Level-Order Traversal
+var levelOrder = function(root) {
+    const ary = [];
+    if( !root ) return ary;
+    
+    const queue = [ [ root ] ];
+    
+    let n;
+    let lvl;    // Current Level
+    let nlvl;   // Build Next Level
+    let vlvl;   // Current Level Values
+    
+    while( queue.length > 0 ){
+        lvl  = queue.shift();
+        nlvl = [];
+        vlvl = [];
+            
+        for( n of lvl ){
+            vlvl.push( n.val );
+            if( n.left ) nlvl.push( n.left );
+            if( n.right ) nlvl.push( n.right );
+        }
+        
+        if( nlvl.length > 0 ) queue.push( nlvl );
+        ary.push( vlvl );
+    }
+
+    return ary;
+};
+
+
+// Find maximum Depth of a Binary Tree From Top To Bottom
+private int answer; 					// don't forget to initialize answer before call maximum_depth
+private void maximum_depth(TreeNode root, int depth) {
+    if (root == null) {
+        return;
+    }
+    if (root.left == null && root.right == null) {
+        answer = Math.max(answer, depth);
+    }
+    maximum_depth(root.left, depth + 1);
+    maximum_depth(root.right, depth + 1);
+}
+
+
+// Find maximum Depth of a Binary Tree From Bottom To Top
+var maxDepth = function(root) {
+    if( !root ) return 0;
+    
+    const l = maxDepth( root.left );
+    const r = maxDepth( root.right );
+    
+    return Math.max( l, r ) + 1;
+};
+
+// Using Queues, Check if both halfs of the tree are Mirror Images of itself / Symmetrical
+var isSymmetric = function(root) {
+    if( !root || ( !root.left && !root.right ) ) return true;
+    
+    // Prev if tests if both are null which makes it true
+    // As a second test, if one is null its false
+    if( !root.left || !root.right ) return false;
+
+    // In the two Queues, Make sure to push the proper order
+    // so each node can compare to its mirror self.
+    const ql = [ root.left ];
+    const qr = [ root.right ];
+    
+    let ln, rn;
+    
+    while( ql.length > 0 && qr.length > 0 ){
+        ln = ql.shift();
+        rn = qr.shift();
+        
+        if( !ln && !rn )        continue;       // If both Sides are null, they're symmetrical   
+        if( !ln || !rn )        return false;   // Theres a mismatch, so not symmetrical
+        if( ln.val != rn.val )  return false;   // Values Don't Match
+        
+        ql.push( ln.left, ln.right ); 
+        qr.push( rn.right, rn.left );   // Flip the insert so it matches its mirror self on the left
+    }
+    
+    return true;
+};
+
+// Using Recursion, Check if both halfs of the tree are Mirror Images of itself / Symmetrical
+var isSymmetric = function(root) {
+    if( !root || ( !root.left && !root.right ) ) return true;
+    if( !root.left || !root.right ) return false;
+
+    return validate( root.left, root.right );
+};
+
+function validate( ln, rn ){
+    if( !ln && !rn )        return true;
+    if( !ln || !rn )        return false;
+    if( ln.val != rn.val )  return false;
+    
+    const l = validate( ln.left, rn.right );
+    const r = validate( ln.right, rn.left );
+    
+    return l && r;
+}
+
+
+// Find if a Path Exists where its Sum is equal to the target sum
+
+// NOTE: Another Possible Solution is to subtract targetsum at each level
+// If at the leaf and its zero, then its true.
+var hasPathSum = function(root, targetSum) {
+    if( !root )                     return false;
+    if( !root.left && !root.right ) return ( root.val == targetSum );
+    
+    return  traverse( root.left, root.val, targetSum ) ||
+            traverse( root.right, root.val, targetSum );
+};
+    
+function traverse( root, sum, targetSum ){
+    if( !root ) return false;
+    
+    sum += root.val;
+    if(!root.left && !root.right) return ( sum == targetSum );
+
+    return  traverse( root.left, sum, targetSum ) || 
+            traverse( root.right, sum, targetSum );
+}
+
+

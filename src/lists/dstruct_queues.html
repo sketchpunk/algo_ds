@@ -1,0 +1,60 @@
+<html><script>
+
+// First-In First-Out
+
+class Node{
+    value  = null;
+    next   = null;
+    constructor( v ){ this.value = v; }
+}
+
+class Queue{
+    first = null;
+    last  = null;
+    size  = 0;
+    constructor(){}
+
+    enqueue( v ){
+        let n = new Node( v );
+
+        if( !this.first ){
+            this.first  = n;
+            this.last   = n;
+        }else{
+            this.last.next  = n;
+            this.last       = n;
+        }
+
+        this.size++;
+        return this;
+    }
+
+    dequeue(){
+        if( !this.first ) return null;
+
+        let n = this.first;
+        if( this.first == this.last ){
+            this.last   = null;
+            this.first  = null;
+            this.size   = 0;
+        }else{
+            this.first = this.first.next;
+            this.size--;
+        }
+
+        n.next = null;
+        return n.value;
+    }
+}
+
+let qu = new Queue();
+qu.enqueue( "A" ).enqueue( "B" ).enqueue( "C" );
+
+//console.log( qu );
+
+console.log( qu.dequeue(), qu.size );
+console.log( qu.dequeue(), qu.size );
+console.log( qu.dequeue(), qu.size );
+console.log( qu.dequeue(), qu.size );
+
+</script></html>

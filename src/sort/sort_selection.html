@@ -1,0 +1,30 @@
+<html><script>
+
+// #region Example
+function selection_sort( ary ){
+    let t, j, min_v, min_i, len = ary.length;
+
+    for( let i=0; i < len; i++ ){
+        min_i = i;
+
+        // Find the index of the smallest number.
+        for( j=i+1; j < len; j++ ){
+            if( ary[ j ] < ary[ min_i ] ) min_i = j;
+        }
+
+        // if a new min is found, swop it with the starting index
+        if( min_i > i ){
+            t             = ary[ min_i ];
+            ary[ min_i ]  = ary[ i ];
+            ary[ i ]      = t;
+        }
+    }
+
+    return ary;
+}
+
+console.log( selection_sort( [32,22,10,11,17] ) );
+
+
+// #endregion //////////////////////////////////////////////////////
+</script></html>

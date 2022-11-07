@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title></head><body>
+<script type="module">
+
+window.addEventListener( "load", async _=>{
+
+});
+
+
+function memorize( fn ){
+    const cache = {};
+    return ( ...args )=>{
+        const key = args.toString();
+        if( key in cache ) return cache[ key ];
+
+        const result = fn( ...args );
+        cache[ key ] = result;
+        return result;
+    }
+}
+
+</script>
+
+
+
+</body></html>

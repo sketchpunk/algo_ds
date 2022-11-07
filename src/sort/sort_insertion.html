@@ -1,0 +1,75 @@
+<html><script>
+
+// #region Example
+
+/*
+The main idea is to move to the right of the array while processing all the left elements of the selected index
+to see if any value needs to be moved up to the right. Once we find an index where the value is greater then our selected item
+we end that loop iteration. That last index + 1 is where our selected value goes.
+
+First loop we start with the second index, Since it will be overwritten by the second loop if the
+first item on the list is larger. This loop moves from Left to Right
+
+in the second loop we start at an index before the first loop, checking if the previous item is bigger 
+then the selected item. This loop moves from RIGHT to LEFT.
+
+If the previous item is greater then the selected index, we copy its value to the next index over with
+the idea of shifting everything bigger then the selected value to the right, so we can get the position where
+the selected item would be the smallest.
+
+Once the loop hits a point where the selected value is greater, we break. 
+This index + 1 is where we save our selected value. The indexed that was checked as a value that is smaller then the
+selected value, so its the next index up that we save our selected value.
+
+If the loop runs all the way down to zero with a value shift, then the loop will exit out when index is -1
+because the loop will only run if j >= 0. So afterwards, the -1 will get +1 giving it a zero value, thous saving our
+selected value at the start of the loop.
+
+- i = 1, j starts at 0 ends at 0 :: [ 4, 3, 2, 1 ]
+-- 3 on j0 : 3 < 4 - [ 4, 4 , 2, 1 ]  Copy 4 Over to next Index
+-- loop ends, j = -1, j+1 = 3, [ 3, 4 , 2, 1 ]
+
+- i = 2, j starts at 1 ends at 0 :: [ 3, 4 , 2, 1 ]
+-- 2 on j1 : 2 < 4 - [ 3, 4 , 4, 1 ]  Copy 4 Over to next Index
+-- 2 on j0 : 2 < 3 - [ 3, 3 , 4, 1 ]  Copy 3 Over to next Index
+-- loop ends, j = -1, j+1 = 2, [ 2, 3, 4, 1 ] 
+
+- i = 1, j starts at 2 ends at 0 :: [ 2, 3, 4, 1 ] 
+-- 1 on j2 : 1 < 4 - [ 2, 3, 4, 4 ]  Copy 4 Over to next Index
+-- 1 on j1 : 1 < 3 - [ 2, 3, 3, 4 ]  Copy 3 Over to next Index
+-- 1 on j0 : 1 < 2 - [ 2, 2, 3, 4 ]  Copy 2 Over to next Index
+-- loop ends, j = -1, j+1 = 1, [ 1, 2, 3, 4 ]
+
+*/
+
+function insertion_sort( ary ){
+    let v, j, len = ary.length;
+
+    for( let i=1; i < len; i++ ){
+      v = ary[ i ];
+
+      for( j=i-1; j >= 0; j-- ){
+
+          if( v < ary[ j ] )    ary[ j + 1 ] = ary[ j ];
+          else                  break;
+
+          console.log( "v",v, "idx",i, "j", j, "chk", ary[ j ],  ary );
+      }
+
+      ary[ j+1 ] = v;
+
+      console.log( ary );
+    }
+
+    return ary;
+}
+
+console.log( insertion_sort( [2,1,9,76,4] ) );
+
+//console.log( insertion_sort( [4, 3, 2, 1] ) );
+//console.log( insertion_sort( [1, 2, 4, 3] ) );
+
+
+
+// #endregion //////////////////////////////////////////////////////
+</script></html>

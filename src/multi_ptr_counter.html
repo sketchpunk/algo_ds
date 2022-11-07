@@ -1,0 +1,144 @@
+<html><script>
+
+/*
+Passing in a Sorted Array
+Find the first pair that equal zero
+Return array that shows the values
+
+*/
+
+// #region Naive Example
+function sum_zero_naive( ary ){
+    for( let i=0; i < ary.length; i++ ){
+        for( let j=i+1; j < ary.length; j++ ){
+            if( ary[i] + ary[j] === 0 ) return[ ary[i], ary[j] ];
+        }
+    }
+    return null;
+}
+
+//console.log( sum_zero_naive( [-3,-2,-1,0,1,2,3] ) );  // [-3,3]
+//console.log( sum_zero_naive( [-2,0,1,3] ) );  // null
+//console.log( sum_zero_naive( [1,2,3] ) );  // null
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Better Example
+function sum_zero( ary ){
+    let a = 0;
+    let b = ary.length - 1;
+    let sum;
+
+    while( a < b ){
+        sum = ary[a] + ary[b];
+        if( sum == 0 )      return [ ary[a], ary[b] ];
+        else if( sum < 0 )  a++;
+        else                b--;
+    }
+
+    return null;
+}
+
+//console.log( sum_zero( [-3,-2,-1,0,1,2,3] ) );  // [-3,3]
+//console.log( sum_zero( [-2,0,1,3] ) );          // null
+//console.log( sum_zero( [1,2,3] ) );             // null
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Other Example
+function cnt_unique( ary ){ // Array Must be Sorted
+    if( ary.length == 0 ) return 0;
+    let cnt = 0;
+    let i   = 0;
+
+    for( let j=1; j < ary.length; j++ ){
+        if( ary[i] !== ary[j] ){    // if no match, 
+            i = j;                  // i index moves to j
+            cnt++;                  // Add 1 to mismatch count
+        }
+    }
+
+    return cnt + 1; // Last number isn't checked
+}
+
+/*
+console.log( cnt_unique( [1,1,1,1,1,2] ) );                 // 2
+console.log( cnt_unique( [1,2,3,4,4,4,7,7,12,12,13] ) );    // 7
+console.log( cnt_unique( [-2,-1,-1,0,1,1] ) );              // 4
+console.log( cnt_unique( [1,1,1] ) );                       // 1
+console.log( cnt_unique( [] ) );                            // 0
+*/
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Are Their Duplicates
+function is_duplicates( ...args ){
+    args.sort( (a,b) => a > b );
+
+    let end = args.length - 1;
+
+    for( let i=0; i < end; i++ ){
+        if( args[ i ] == args[ i+1 ] ) return true;
+    }
+
+    return false;
+}
+/*
+console.log( is_duplicates( 1, 2, 3 ) );            // false
+console.log( is_duplicates( 1, 2, 2 ) );            // true
+console.log( is_duplicates( 'a', 'b', 'c', 'a' ) ); // true
+*/
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Find Average Pair
+function avg_pair( ary, num ){
+    let start   = 0;
+    let end     = ary.length - 1;
+    let avg;
+
+    while( start < end ){
+        avg = ( ary[ start ] + ary[ end ] ) / 2;
+        
+        if( avg == num )     return true;
+        else if( avg < num ) start++;
+        else                 end--;
+    }
+
+    return false;
+}
+/*
+console.log( avg_pair( [1,2,3], 2.5 ) );                // true
+console.log( avg_pair( [1,3,3,5,6,7,10,12,19], 8 ) );   // true
+console.log( avg_pair( [-1,0,3,4,5,6], 4.1 ) );         // false
+*/
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Find Average Pair
+function is_subsequence( a, b ){
+    let ai   = 0;
+    let bi   = 0;
+    let alen = a.length;
+    let blen = b.length;
+
+    if( !a ) return true;
+
+    while( bi < blen ){
+        if( b[ bi ] == a[ ai ] ) ai++;
+        if( ai == alen ) return true;
+
+        bi++;
+    }
+
+    return false;
+}
+
+console.log( is_subsequence( "hello", "hello world" ) );// true
+console.log( is_subsequence( "sing", "string" ) );      // true
+console.log( is_subsequence( "abc", "abracadabra" ) );  // true
+console.log( is_subsequence( "abc", "acb" ) );          // false
+
+// #endregion //////////////////////////////////////////////////////
+
+</script></html>

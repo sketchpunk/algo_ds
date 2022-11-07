@@ -1,0 +1,136 @@
+<html><script>
+
+/*
+    Array 0 contains a list of numbers
+    Array 1 contains a list of numbers
+
+    Rules
+    1. Array 1 must contain all the square values of Array 0
+    2. Values can be unordered.
+*/
+
+// #region Naive Example
+function naive_same( a0, a1 ){
+    if( a0.length != a1.length ) return false;
+
+    for( let i=0; i < a0.length; i++ ){
+        let idx = a1.indexOf( a0[i] ** 2 );
+        if( idx == -1 ) return false;
+        a1.splice( idx, 1 );
+    }
+
+    return true;
+}
+
+//console.log( naive_same( [1,2,3], [4,1,9] ) );  // true
+//console.log( naive_same( [1,2,3], [1,9] ) );    // false
+//console.log( naive_same( [1,2,1], [4,4,1] ) );  // false
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Better Example
+
+// Pre Compute the counts of each array
+function same( a0, a1 ){
+    if( a0.length != a1.length ) return false;
+
+    let ctr0 = {};
+    let ctr1 = {};
+    let i;
+
+    for( i of a0 ) ctr0[i] = ( ctr0[i] || 0 ) + 1;
+    for( i of a1 ) ctr1[i] = ( ctr1[i] || 0 ) + 1;
+
+    for( i in ctr0 ){
+        if( !( i**2 in ctr1 ) ) return false;
+        if( ctr1[ i**2 ] != ctr0[ i ] ) return false;
+    }
+
+    return true;
+}
+
+//console.log( same( [1,2,3], [4,1,9] ) );  // true
+//console.log( same( [1,2,3], [1,9] ) );    // false
+//console.log( same( [1,2,1], [4,4,1] ) );  // false
+
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Anagram Example
+function valid_anagram( a, b ){
+    if( a.length != b.length ) return false;
+    
+    let lookup = {};
+    let i, v;
+
+    for( i=0; i < a.length; i++ ){
+        v = a[ i ];
+        lookup[ v ]? lookup[v] += 1 : lookup[ v ] = 1;
+    }
+    
+    console.log( lookup );
+
+    for( i=0; i < b.length; i++ ){
+        v = b[i];
+        if( !lookup[v] ) return false;
+
+        lookup[v] -= 1;
+    }
+    return true;
+}
+
+//console.log( valid_anagram( "anagram", "margana" ) );   // true
+//console.log( valid_anagram( "anagrams", "marganax" ) ); // false
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Do numbers have the same numbers and quantity of each number
+function same_freq( a, b ){
+    let sa = a.toString();
+    let sb = b.toString();
+    if( sa.length != sb.length ) return false;
+
+    let cnta = {};
+    let cntb = {};
+    let i, k;
+
+    for( i=0; i < sa.length; i++ ) cnta[ sa[i] ] = ( cnta[ sa[i] ] || 0 ) + 1;
+    for( i=0; i < sb.length; i++ ) cntb[ sb[i] ] = ( cntb[ sb[i] ] || 0 ) + 1;
+
+    for( k in cnta ){
+        if( cnta[k] != cntb[k] ) return false;
+    }
+
+    return true;
+}
+
+/*
+console.log( same_freq( 182, 281 ) );          // true
+console.log( same_freq( 34, 14 ) );            // false
+console.log( same_freq( 3589578, 5879385 ) );  // true
+console.log( same_freq( 22, 222 ) );           // false
+*/
+// #endregion //////////////////////////////////////////////////////
+
+
+// #region Are Their Duplicates
+function is_duplicates(){
+    let cache = {};
+    let arg   = arguments;
+    let k;
+    
+    for( k in arg ) cache[ arg[k] ] = ( cache[ arg[k] ] || 0 ) + 1;
+
+    for( k in cache ){
+        if( cache[ k ] > 1 ) return true;
+    }
+
+    return false;
+}
+
+console.log( is_duplicates( 1, 2, 3 ) );            // false
+console.log( is_duplicates( 1, 2, 2 ) );            // true
+console.log( is_duplicates( 'a', 'b', 'c', 'a' ) ); // true
+// #endregion //////////////////////////////////////////////////////
+
+</script></html>

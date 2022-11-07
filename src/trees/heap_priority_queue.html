@@ -1,0 +1,128 @@
+<html><script>
+
+class Node{
+    constructor( v, p=0 ){
+        this.value      = v;
+        this.priority   = p;
+    }
+
+    compare( a, b ){
+        return  ( a.priority == b.priority )? 0 :
+                ( a.priority < b.priority )? -1 : 1;
+    }
+}
+
+// This is a Min Binary Heap
+
+class PriorityQueue{
+    data = [];
+
+    // #region INSERTING
+    enqueue( v, p=0 ){
+        let n   = new Node( v, p );
+        let idx = this.data.length;
+        this.data.push( n );
+
+        if( idx != 0 ) this._bubble_up( idx );
+        return this;
+    }
+
+    // Move from Child to parent, If Child Value is greater then parent, Swop value.
+    // Traversing up till parent is greater or test element is now root.
+    _bubble_up( idx ){
+        let pidx, pelm;
+        let d   = this.data;
+        let elm = d[ idx ];
+
+        while( idx > 0 ){
+            pidx = Math.floor( (idx - 1) / 2 ); // Compute Parent Index on Heap
+            pelm = d[ pidx ];
+
+            if( elm.priority >= pelm.priority ) break;  // Child is less priority, Exit loop
+
+            d[ idx ]    = pelm; // Parent Becomes Child
+            d[ pidx ]   = elm;  // Child Becomes Parent
+            idx         = pidx; // Move up for next iteraction
+        }
+    }
+    // #endregion //////////////////////////////////////////////////////
+
+    // #region REMOVING
+    dequeue(){
+        // No Data, just exit
+        if( this.data.length == 0 ) return null;
+
+        let rtn     = this.data[ 0 ];   // Save First Item
+        let end     = this.data.pop();  // Get Last Item
+
+        if( this.data.length > 0 ){     // If the last item wasn't also the first time
+            this.data[ 0 ] = end;       // ... Save it to the root
+            this._bubble_down();        // ... then reshuffle the queue
+        }
+
+        return rtn;
+    }
+
+    _bubble_down( ){
+        let l_idx, r_idx, i_chg, lft, rit;
+        let d   = this.data;    // Data Alias
+        let idx = 0;
+        let elm = d[ idx ];     // Moving Element Data
+        let len = d.length;     // Total Length of Array, used for bound checking
+
+        while( idx < len ){
+            l_idx = idx * 2 + 1;    // Compute Child Indices
+            r_idx = idx * 2 + 2;
+            i_chg = null;           // Reset Index of Which Child will swop with parent.
+            lft   = null;           // Reset Left and Right References
+            rit   = null;
+
+            // If Left is in bounds and its value is less
+            if( l_idx < len ){
+                lft = d[ l_idx ];
+                if( lft.priority < elm.priority ) i_chg = l_idx;
+            }
+
+            // If right is in bounds and its value is less
+            // but only if there is no left OR right is less then lft if it exists
+            if( r_idx < len ){
+                rit = d[ r_idx ];
+                if( 
+                    rit.priority < elm.priority && (
+                        i_chg == null ||
+                        rit.priority < lft.priority
+                    )
+                ) i_chg = r_idx;
+            }
+
+            if( i_chg == null ) break;  // No child is less, exit
+            d[ idx ]    = d[ i_chg ];   // The Lesser number moves up
+            d[ i_chg ]  = elm;          // Add our shifting value down
+            idx         = i_chg;        // Save index for next iteration
+        }
+    }
+    // #endregion //////////////////////////////////////////////////////
+}
+
+
+let heap = new PriorityQueue();
+heap.enqueue( "common code", 5 );
+heap.enqueue( "gunshot wound", 1 );
+heap.enqueue( "high fever", 4 );
+heap.enqueue( "broken arm", 2 );
+heap.enqueue( "glass in foot", 3 );
+
+//heap.insert( 1 );
+//heap.insert( 45 );
+//heap.remove( 0 );
+
+console.log( heap.dequeue() );
+console.log( heap.dequeue() );
+console.log( heap.dequeue() );
+console.log( heap.dequeue() );
+console.log( heap.dequeue() );
+console.log( heap.dequeue() );
+
+console.log( heap.data );
+
+</script></html>

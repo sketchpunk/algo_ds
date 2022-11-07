@@ -1,0 +1,104 @@
+<html><script>
+
+// #region Example
+
+/*
+*/
+
+function quick_sort( ary, l=0, r=ary.length-1 ){
+    if( l < r ){
+        let p_idx = pivot( ary, l, r );
+        quick_sort( ary, l, p_idx - 1 );
+        quick_sort( ary, p_idx + 1, r );
+    }
+
+    return ary;
+}
+
+// Using the first element as the pivot, we go to every element to try to stuff it
+// to the beginning of the array while greater items are pushed to the end.
+// By using a moving index, we end up keeping track the next possible position to store the
+// small values when they are found by simply swapping whats currently there which is most likely
+// greater then the pivot value.
+function pivot( ary, start=0, end=ary.length-1 ){
+    let swap = ( a, b )=>{ let t = ary[ a ]; ary[ a ] = ary[ b ]; ary[ b ] = t; }
+    let p    = ary[ 0 ];
+    let idx  = start;
+    //let t;
+
+    for( let i=start+1; i <= end; i++ ){
+        //console.log( "Test", ary[i], "<", p );
+        if( ary[ i ] < p ){
+            //console.log( "Before", ary );
+
+            //t           = ary[ i ];
+            //ary[ i ]    = ary[ ++idx ];
+            //ary[ idx ]  = t;
+            swap( i, ++idx );
+
+            //console.log( "----", ary );
+        }
+    }
+
+    //t               = ary[ start ];
+    //ary[ start ]    = ary[ idx ];
+    //ary[ idx ]      = t;
+    swap( start, idx );
+
+    //console.log( ary );
+    return idx;     
+}
+
+function quick_sort_q( ary ){
+    if( ary.length <= 1 ) return ary;
+    
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    let stack   = new Array();
+    let push    = ( l, r )=>{ stack.push( { l, r } ); }
+    let swap    = ( a, b )=>{ let t = ary[ a ]; ary[ a ] = ary[ b ]; ary[ b ] = t; }
+    let t, i, itm, p_idx, p;
+
+    push( 0, ary.length );
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    while( stack.length > 0 ){
+        //..............................
+        itm     = stack.pop();
+        p_idx   = itm.l;
+        p       = ary[ p_idx ];
+
+        //..............................
+        // Loop through slice trying to shift all the values
+        // LT the pivot value next to the start of the slice by
+        // the means of a moving index. By product is everything
+        for( i = itm.l + 1; i <= itm.r; i++ ){
+            if( ary[ i ] < p ) swap( i, ++p_idx );
+        }
+
+        // The current pivot index is the last place that placed
+        // a value LT pivot value, so swop its value so that from
+        // that point in the array, all the small items are on the left
+        // and the large items are on the right.
+        swap( itm.l, p_idx );
+
+        //..............................
+        // Add to stack the next slice of the array to process
+        // as long as the slice has at least 2 items
+        t = p_idx - 1;
+        if( t > itm.l ) push( itm.l, t );
+        
+        t = p_idx + 1;
+        if( t < itm.r ) push( t, itm.r );
+    }
+    
+    return ary;
+}
+
+//console.log( pivot( [4,8,2,1,5,7,6,3] ) );
+//console.log( quick_sort( [4,8,2,1,5,7,6,3] ) );
+console.log( quick_sort_q( [4,8,2,1,5,7,6,3] ) );
+
+
+
+// #endregion //////////////////////////////////////////////////////
+</script></html>

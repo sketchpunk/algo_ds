@@ -1,0 +1,29 @@
+<html><script>
+
+/**/
+
+// #region Example
+function binary_search( ary, num ){
+    let min = 0;
+    let max = ary.length - 1;
+    let mid = 0;
+    let cur;
+
+    while( min <= max ){
+        mid = Math.floor( (min + max) / 2 );
+        cur = ary[ mid ];
+
+        if( cur < num )      min = mid + 1;
+        else if( cur > num ) max = mid - 1;
+        else                 return mid;
+    }
+
+    return -1;
+}
+
+console.log( binary_search( [1,2,3,4,5,6], 4 ) );  // 3
+console.log( binary_search( [1,2,3,4,5,6], 6 ) );  // 5
+console.log( binary_search( [1,2,3,4,5,6], 11 ) ); // -1
+// #endregion //////////////////////////////////////////////////////
+
+</script></html>
